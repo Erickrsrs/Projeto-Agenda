@@ -17,7 +17,7 @@ class Contato {
     this.errors = [];
     this.contato = null;
   }
-  
+
   static async buscaPorId(id) {
     if (typeof id !== "string") return;
     const contatoId = await ContatoModel.findById(id);
@@ -57,6 +57,15 @@ class Contato {
       email: this.body.email,
       telefone: this.body.telefone,
     };
+  }
+
+  async edit(id) {
+    if (typeof id !== "string") return;
+    this.valida();
+    if (this.errors.length > 0) return;
+    this.contato = await ContatoModel.findByIdAndUpdate(id, this.body, {
+      new: true,
+    });
   }
 }
 
